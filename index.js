@@ -35,9 +35,9 @@ module.exports = function(app) {
 
     n2kCallback = (msg) => {
       try {
-        var enc_msg = null
+        //let enc_msg = null
 
-        var fields = msg['fields']
+        let fields = msg['fields']
 
         if (pluginOptions.dcBreakerCurrent && msg.pgn == 65284 && fields['Manufacturer Code'] == 'Maretron') {
           let keys = ['Breaker Current']
@@ -70,12 +70,12 @@ module.exports = function(app) {
     let basePath = 'electrical.switches.bank.' + fields['Bank Instance'] + '.' + fields['Indicator Number']
     if (suffix) basePath += '.' + suffix
 
-    var values = (keys.map(key => ({
+    let values = (keys.map(key => ({
       "path": basePath + '.' + toCamelCase(key),
-      "value": fields[key]
+      "value": fields.hasOwnProperty(key) ? key.startsWith('Accumulated') ? timerFormat(fields[key]) : fields[key] : ''
     })))
 
-    var delta = {
+    let delta = {
       "updates": [{
         "values": values
       }]
@@ -87,8 +87,8 @@ module.exports = function(app) {
 
   function toCamelCase(input) {
 
-    var regex = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
-    var inputArray = input.match(regex);
+    let regex = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
+    let inputArray = input.match(regex);
 
     let result = "";
     for (let i = 0, len = inputArray.length; i < len; i++) {
@@ -106,5 +106,19 @@ module.exports = function(app) {
     }
 
     return result;
+  }
+
+  function timerFormat(seconds) {
+
+    let days = Math.floor(seconds / 86400)
+    let daysr = seconds % 86400
+
+    let hours = Math.floor(daysr / 3600)
+    let hoursr = daysr % 3600
+
+    let minutes = Math.floor(hoursr / 60)
+    seconds = hoursr % 60
+
+    return days + ':' + hours + ':' + minutes + ':' + seconds
   }
 };
