@@ -33,8 +33,6 @@ module.exports = function(app) {
   plugin.start = function(options) {
     n2kCallback = (msg) => {
       try {
-        //let enc_msg = null
-
         let fields = msg['fields']
 
         if (options.dcBreakerCurrent && msg.pgn == 65284 && fields['Manufacturer Code'] == 'Maretron') {
