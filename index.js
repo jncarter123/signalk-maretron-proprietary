@@ -31,23 +31,21 @@ module.exports = function(app) {
   }
 
   plugin.start = function(options) {
-    pluginOptions = options
-
     n2kCallback = (msg) => {
       try {
         //let enc_msg = null
 
         let fields = msg['fields']
 
-        if (pluginOptions.dcBreakerCurrent && msg.pgn == 65284 && fields['Manufacturer Code'] == 'Maretron') {
+        if (options.dcBreakerCurrent && msg.pgn == 65284 && fields['Manufacturer Code'] == 'Maretron') {
           let keys = ['Breaker Current']
           handleDelta(fields, keys)
 
-        } else if (pluginOptions.switchStatusCounter && msg.pgn == 130836 && fields['Manufacturer Code'] == 'Maretron') {
+        } else if (options.switchStatusCounter && msg.pgn == 130836 && fields['Manufacturer Code'] == 'Maretron') {
           let keys = ['Start Date', 'Start Time', 'OFF Counter', 'ON Counter', 'ERROR Counter']
           handleDelta(fields, keys, 'statusCounter')
 
-        } else if (pluginOptions.switchStatusTimer && msg.pgn == 130837 && fields['Manufacturer Code'] == 'Maretron') {
+        } else if (options.switchStatusTimer && msg.pgn == 130837 && fields['Manufacturer Code'] == 'Maretron') {
           let keys = ['Start Date', 'Start Time', 'Accumulated OFF Period', 'Accumulated ON Period', 'Accumulated ERROR Period']
           handleDelta(fields, keys, 'statusTimer')
         }

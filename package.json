@@ -1,11 +1,8 @@
 {
   "name": "signalk-maretron-proprietary",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds support for Maretron Proprietary PGNs",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "signalk-node-server-plugin"
   ],
