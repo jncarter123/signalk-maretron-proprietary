@@ -1,6 +1,6 @@
 {
   "name": "signalk-maretron-proprietary",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Adds support for Maretron Proprietary PGNs",
   "main": "index.js",
   "keywords": [
