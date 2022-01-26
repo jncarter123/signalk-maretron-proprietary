@@ -4,6 +4,7 @@ const PLUGIN_NAME = 'Maretron Proprietary PGNs'
 module.exports = function(app) {
   var plugin = {};
   var unsubscribes = [];
+  var n2kCallback
 
   plugin.id = PLUGIN_ID;
   plugin.name = PLUGIN_NAME;
@@ -63,7 +64,7 @@ module.exports = function(app) {
   return plugin;
 
   function handleDelta(fields, keys, suffix) {
-    let basePath = 'electrical.switches.bank.' + fields['Bank Instance'] + '.' + fields['Indicator Number']
+    let basePath = 'electrical.switches.bank.' + fields['Instance'] + '.' + fields['Indicator Number']
     if (suffix) basePath += '.' + suffix
 
     let values = (keys.map(key => ({
